@@ -18,7 +18,7 @@ function Nav(data, func) {
 		var doc = document
 		if(history.replaceState !== undefined) {
 			// set state for the current/initial location
-			history.replaceState(state, "", doc.location.pathname + doc.location.search)
+			history.replaceState(state, "", url)
 			// wire in the pop handler
 			window.onpopstate = function(evt) {
 				if(evt.state) {
