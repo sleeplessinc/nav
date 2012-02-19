@@ -4,7 +4,7 @@
 <input id=act value="home" size=50>
 <script>
 	// quickly generate something to click
-	function div(id) { return "<div onclick='go(this.id, this.clientX)' id=__id__>__id__</div>".replace(/__id__/g,id) }
+	function div(id) { return "<div onclick='go(this.id)' id=__id__>__id__</div>".replace(/__id__/g,id) }
 	"home products about contact".split(' ').forEach(function(v) {
 		document.write(div(v));
 	})
