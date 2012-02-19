@@ -2,11 +2,18 @@
 <body>
 
 <input id=act value="home" size=50>
+<script>
+	// quickly generate something to click
+	function div(id) { return "<div onclick='go(this.id, this.clientX)' id=__id__>__id__</div>".replace(/__id__/g,id) }
+	"home products about contact".split(' ').forEach(function(v) {
+		document.write(div(v));
+	})
+</script>
 
 <script src=nav.js></script>
-
 <script>
 
+	// func to convert the query string args for current page into an obj
 	function getQueryData() {
 		var o = {}
 		var s = document.location.search
@@ -20,11 +27,6 @@
 		return o
 	}
 
-	function div(id) { return "<div onclick='go(this.id, this.clientX)' id=__id__>__id__</div>".replace(/__id__/g,id) }
-	"home products about contact".split(' ').forEach(function(v) {
-		document.write(div(v));
-	})
-
 
 	// -------------------------------
 
@@ -33,16 +35,39 @@
 		data.page = "home"
 
 	function show(d) {
+		/* Here is where I would actually show what ever made sense for the
+		data passed in.  For example, show a specific DIV, load some data 
+		via XHR and display it, etc. */
 		document.getElementById('act').value = JSON.stringify(d)
 	}
 
+
+	/* My first call to Nav() will:
+		- attach the "data" object to the current history location
+		- modify the URL to show the data as query string args in location bar
+		- remember the 'show' function for future calls that don't include it
+		- call show(data)
+		Nothing is pushed onto the history stack.
+	*/
+	Nav(data, show)
+
+	/* This is where I simulate navigating to a new page */
 	function go(page) {
-		if(page != data.page) {
-			data.page = page
-			Nav(data)
-		}
+		if(page == data.page)
+			return
+		data.page = page
+		/* This call to Nav() (since it's not the first) will:
+			- push a new URL onto the browser history stack
+			- attach the "data" object to it
+			- modify the URL to show the data as query string args
+			- call show(data)
+			Note: a simple page redirect will be attempted for stupid browsers.
+		*/
+		Nav(data)
+		/* Now, when the user hits the back button, state data will be pulled
+		back off the history stack and show(data) will be called with it.
+		*/
 	}
 
-	Nav(data, show)
 
 </script>

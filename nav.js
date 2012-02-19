@@ -3,7 +3,7 @@
 
 function Nav(data, func) {
 
-	// build a URL with query string, from current path plus what is in data
+	// build a URL with query string from current path and the contents of 'data'
 	var qs = ""
 	for(var k in data) {
 		qs += (qs ? "&" : "?") + k + "=" + encodeURIComponent(data[k])
@@ -16,14 +16,16 @@ function Nav(data, func) {
 		// first time through 
 		Nav.show = func || function(){}
 		var doc = document
-		// set a state object for the current/initial location
-		history.replaceState(state, "", doc.location.pathname + doc.location.search)
-		// wire in the pop handler
-		window.onpopstate = function(evt) {
-			if(evt.state) {
-				var data = evt.state
-				Nav.show(evt.state.data)
-				// XXX window.pageYOffset = evt.state.pageYOffset
+		if(history.replaceState !== undefined) {
+			// set state for the current/initial location
+			history.replaceState(state, "", doc.location.pathname + doc.location.search)
+			// wire in the pop handler
+			window.onpopstate = function(evt) {
+				if(evt.state) {
+					var data = evt.state
+					Nav.show(evt.state.data)
+					// XXX window.pageYOffset = evt.state.pageYOffset
+				}
 			}
 		}
 	}
