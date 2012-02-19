@@ -2,8 +2,8 @@
 // Copyright 2012  Sleepless Software Inc.  All Rights Reserved
 
 function Nav(func, data) {
-	var loc = document.location
 	this.show = func
+	var loc = document.location
 	var state = {
 		pageYOffset: 0,
 		data: data
@@ -34,6 +34,7 @@ Nav.prototype = {
 		if(evt.state) {
 			var data = evt.state
 			this.show(evt.state.data)
+			// XXX window.pageYOffset = evt.state.pageYOffset
 		}
 	},
 	show: function(data) {
