@@ -41,6 +41,9 @@
 		}
 	}
 
+	/* So we create a Nav object, and give it a function for "show" and the data that
+		represents the initial state so that when we return to this point in history,
+		we'll be able to recreate our state from the data */
 	var nav = new Nav(show, data)
 	show(data)
 
