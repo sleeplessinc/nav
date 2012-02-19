@@ -34,9 +34,11 @@
 	}
 
 	function go(page) {
-		data.page = page
-		data.t = document.getElementById(page).offsetTop
-		nav.push(data)
+		if(page != data.page) {
+			data.page = page
+			data.t = document.getElementById(page).offsetTop
+			nav.push(data)
+		}
 	}
 
 	var nav = new Nav(show, data)
