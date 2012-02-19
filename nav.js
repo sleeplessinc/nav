@@ -1,43 +1,45 @@
 
 // Copyright 2012  Sleepless Software Inc.  All Rights Reserved
 
-function Nav(func, data) {
-	this.show = func
-	var loc = document.location
-	var state = {
-		pageYOffset: 0,
-		data: data
+function Nav(data, func) {
+
+	// build a URL with query string, from current path plus what is in data
+	var qs = ""
+	for(var k in data) {
+		qs += (qs ? "&" : "?") + k + "=" + encodeURIComponent(data[k])
 	}
-	history.replaceState(state, "", loc.pathname + loc.search)
-	window.onpopstate = this.pop
-}
-Nav.prototype = {
-	push: function(data) {
-		var qs = ""
-		for(var k in data) {
-			qs += (qs ? "&" : "?") + k + "=" + encodeURIComponent(data[k])
-		}
-		var url = document.location.pathname+qs
-		if(history.pushState === undefined) {
-			document.location = url
-		}
-		else {
-			var state = {
-				pageYOffset: window.pageYOffset,
-				data: data
+	var url = document.location.pathname + qs
+
+	var state = { pageYOffset: 0, data: data }
+
+	if(!Nav.show) {
+		// first time through 
+		Nav.show = func || function(){}
+		var doc = document
+		// set a state object for the current/initial location
+		history.replaceState(state, "", doc.location.pathname + doc.location.search)
+		// wire in the pop handler
+		window.onpopstate = function(evt) {
+			if(evt.state) {
+				var data = evt.state
+				Nav.show(evt.state.data)
+				// XXX window.pageYOffset = evt.state.pageYOffset
 			}
-			history.pushState(state, "", url)
-			this.show(data)
 		}
-	},
-	pop: function(evt) {
-		if(evt.state) {
-			var data = evt.state
-			this.show(evt.state.data)
-			// XXX window.pageYOffset = evt.state.pageYOffset
-		}
-	},
-	show: function(data) {
 	}
+	else {
+		if(history.pushState === undefined) {
+			// dumb browser - just punt it
+			document.location = url
+			return
+		}
+		state.pageYOffset = window.pageYOffset
+		history.pushState(state, "", url)
+	}
+
+	if(func)
+		Nav.show = func
+	Nav.show(data)
+
 }
 

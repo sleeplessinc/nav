@@ -25,6 +25,9 @@
 		document.write(div(v));
 	})
 
+
+	// -------------------------------
+
 	var data = getQueryData()
 	if(!data.page)
 		data.page = "home"
@@ -36,15 +39,10 @@
 	function go(page) {
 		if(page != data.page) {
 			data.page = page
-			data.t = document.getElementById(page).offsetTop
-			nav.push(data)
+			Nav(data)
 		}
 	}
 
-	/* So we create a Nav object, and give it a function for "show" and the data that
-		represents the initial state so that when we return to this point in history,
-		we'll be able to recreate our state from the data */
-	var nav = new Nav(show, data)
-	show(data)
+	Nav(data, show)
 
 </script>
