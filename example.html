@@ -1,73 +1,96 @@
 <html>
+<head>
+
+	<style>
+		.pg1, .pg0 { border: solid 1px #aaa; padding: 1em; font-size: 140%; }
+		.pg1 { display: block; }
+		.pg0 { display: none; }
+	</style>
+
+	<script src=nav.js></script>
+
+</head>
 <body>
 
-<input id=act value="home" size=50>
+<h2>Nav()</h2>
+<p>
+Nav() assists in buiding web-apps.
+It supports navigation using the new "pushstate" system of modern browsers.
+It lets you navigate through pseudo "pages" within an actual page
+without any reloading from the web server.
+<p>
+This is valuable because it dramatically:
+<ul>
+	<li> reduces load on the web server
+	<li> reduced bandwidth requirements for both client and server
+	<li> increases user interface responsiveness for the user
+</ul>
+However, because of its reliance on the query string arguments,
+Nav() is not SEO friendly, even though this example simulates a simple website.
+It is intended for navigation within a web-app with pages that
+won't need to be indexed by search engines.
+<p>
+Note how as you click on the menu items, the page content changes,
+but no requests are made to the server.  
+It's all loaded up front.
+Clicking the buttons is just "showing you" different things within the fetched html.
+Note also, that you can "reload" the page at any point and the page shows
+you the correct content.
+Bookmarks can also be made and returned to.
+<p>
+
+<center>
 <script>
-	// quickly generate something to click
-	function div(id) { return "<div onclick='go(this.id)' id=__id__>__id__</div>".replace(/__id__/g,id) }
-	"home products about contact".split(' ').forEach(function(v) {
-		document.write(div(v));
+
+	var doc = document
+
+	function write(s) { doc.write(s) }
+	function elem(id) { return doc.getElementById(id) }
+
+	// Generate a simulate set of pages with a menu button for each one
+
+	var pages = "home about products contact".split(' ')
+
+	function mkitem(id) {
+		return "<input type=button value=X onclick='go(this.value)'>".replace(/X/g, id)
+	}
+	write("<hr>");
+	pages.forEach(function(v) {
+		write(mkitem(v));
 	})
-</script>
+	write("<hr>");
 
-<script src=nav.js></script>
-<script>
+	function mkpage(id) {
+		return "<div id='X' class=pg0>Content for ''X'' page.</div>".replace(/X/g, id)
+	}
+	pages.forEach(function(v) {
+		write(mkpage(v));
+	})
 
-	// func to convert the query string args for current page into an obj
-	function getQueryData() {
-		var o = {}
-		var s = document.location.search
-		if(s) {
-			var kv = s.substr(1).split("&")
-			for(var i = 0; i < kv.length; i++) {
-				var aa = kv[i].split("=")
-				o[aa[0]] = decodeURIComponent(aa[1])
-			}
-		}
-		return o
+
+
+	// Now this is how we use Nav()
+
+
+	function show(data) {
+
+		// hide all divs
+		pages.forEach(function(v) {
+			elem(v).className = "pg0"
+		})
+
+		// re-show requested div
+		elem(data.content).className = "pg1"		
 	}
 
-
-	// -------------------------------
-
-	var data = getQueryData()
-	if(!data.page)
-		data.page = "home"
-
-	function show(d) {
-		/* Here is where I would actually show what ever made sense for the
-		data passed in.  For example, show a specific DIV, load some data 
-		via XHR and display it, etc. */
-		document.getElementById('act').value = JSON.stringify(d)
-	}
-
-
-	/* My first call to Nav() will:
-		- attach the "data" object to the current history location
-		- modify the URL to show the data as query string args in location bar
-		- remember the 'show' function for future calls that don't include it
-		- call show(data)
-		Nothing is pushed onto the history stack.
-	*/
-	Nav(data, show)
-
-	/* This is where I simulate navigating to a new page */
-	function go(page) {
-		if(page == data.page)
-			return
-		data.page = page
-		/* This call to Nav() (since it's not the first) will:
-			- push a new URL onto the browser history stack
-			- attach the "data" object to it
-			- modify the URL to show the data as query string args
-			- call show(data)
-			Note: a simple page redirect will be attempted for stupid browsers.
-		*/
+	
+	function go(content) {
+		var data = {content:content}	// note: this is transformed into query string
 		Nav(data)
-		/* Now, when the user hits the back button, state data will be pulled
-		back off the history stack and show(data) will be called with it.
-		*/
 	}
+
+
+	Nav(show) // tell nav about our "show a page" callback
 
 
 </script>
