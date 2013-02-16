@@ -74,6 +74,10 @@
 			pages[ i ].className = "page hid"
 		}
 
+		if( ! data.page ) {
+			data.page = "home";
+		}
+
 		// The re-show just the one requested page
 		document.getElementById( data.page ).className = "page"		
 	} )
