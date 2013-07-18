@@ -9,9 +9,9 @@ without any reloading from the web server.
 
 This can be useful because it dramatically:
 
-	- reduces load on the web server
-	- reduced bandwidth requirements for both client and server
-	- increases user interface responsiveness for the user
+- reduces load on the web server
+- reduced bandwidth requirements for both client and server
+- increases user interface responsiveness for the user
 
 However, because of its reliance on the query string arguments,
 Nav() is not SEO friendly, even though this example simulates a simple website.
