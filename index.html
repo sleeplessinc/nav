@@ -1,6 +1,5 @@
 <html>
 <head>
-
 	<style>
 		.hid { display: none; }
 		.page { border: solid 1px #aaa; padding: 1em; font-size: 140%; }
@@ -17,70 +16,42 @@
 		<input type=button value="Contact" onclick="Nav( { page: 'contact'} )">
 	</div>
 
-
 	<div class="page" id=home>
 		<h1>Home Page</h1>
-
-		<h2>Nav()</h2>
-		<p>
-		Nav() assists in buiding web-apps.
-		It supports navigation using the "pushstate" system of modern browsers.
-		It lets you navigate through pseudo-pages within an actual page
-		without any reloading from the web server.
-		<p>
-		This is valuable because it dramatically:
-		<ul>
-			<li> reduces load on the web server
-			<li> reduced bandwidth requirements for both client and server
-			<li> increases user interface responsiveness for the user
-		</ul>
-		However, because of its reliance on the query string arguments,
-		Nav() is not SEO friendly, even though this example simulates a simple website.
-		It is intended for navigation within a web-app with pages that
-		won't need to be indexed by search engines.
-		<p>
-
+		Home sweet home.
 	</div>
-
 
 	<div class="page hid" id=about>
 		<h1>About Page</h1>
 		Note how as you click on the menu items, the page content changes,
 		but no requests are made to the server.  
-		It's all loaded up front.
 		Clicking the buttons is just "showing you" different things within the fetched html.
-		Note also, that you can reload the page at any point and the page shows
-		you the correct content.
-		Bookmarks can also be made and returned to.
 		<p>
 	</div>
-
 
 	<div class="page hid" id=contact>
 		<h1>Contact Page</h1>
 		This is a pointless contact page.
 	</div>
 
+	<script>
 
-<center>
-<script>
+		Nav( function( data ) {
 
+			// first, hide ALL the pages
+			var pages = document.getElementsByClassName('page');
+			for(var i = 0; i < pages.length; i++ ) {
+				pages[ i ].className = "page hid"
+			}
 
-	Nav( function( data ) {
+			// default to "home"
+			if( ! data.page ) {
+				data.page = "home";
+			}
 
-		// first, hide ALL the pages
-		var pages = document.getElementsByClassName('page');
-		for(var i = 0; i < pages.length; i++ ) {
-			pages[ i ].className = "page hid"
-		}
+			// Then re-show just the one requested page
+			document.getElementById( data.page ).className = "page"		
+		})
 
-		if( ! data.page ) {
-			data.page = "home";
-		}
+	</script>
 
-		// The re-show just the one requested page
-		document.getElementById( data.page ).className = "page"		
-	} )
-
-
-</script>
