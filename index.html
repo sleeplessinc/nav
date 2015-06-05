@@ -5,15 +5,13 @@
 		.page { border: solid 1px #aaa; padding: 1em; font-size: 140%; }
 	</style>
 
-	<script src=nav.js></script>
-
 </head>
 <body>
 
 	<div class=menu>
 		<input type=button value="Home" onclick="Nav( { page: 'home' } )">
 		<input type=button value="About" onclick="Nav( { page: 'about'} )">
-		<input type=button value="Contact" onclick="Nav( { page: 'contact'} )">
+		<input type=button value="Contact" onclick="Nav( { page: 'contact', foo: 'bar'} )">
 	</div>
 
 	<div class="page" id=home>
@@ -31,28 +29,30 @@
 
 	<div class="page hid" id=contact>
 		<h1>Contact Page</h1>
-		Note that because Nav is stabbing a "?page=about" into the URL.
-		This allows people to book mark the pseudo-page.
+		Note that Nav is injecting "?page=contact" into the URL.
+		This allows the pseudo-page to be bookmarked.
 	</div>
 
+	<script src=nav.js></script>
 	<script>
 
-		Nav( function( data ) {
+		Nav(function(data) {
 
-			// first, hide ALL the pages
+			// hide all the pseudo-pages
 			var pages = document.getElementsByClassName('page');
 			for(var i = 0; i < pages.length; i++ ) {
 				pages[ i ].className = "page hid"
 			}
 
-			// default to "home"
-			if( ! data.page ) {
+			if(! data.page) {
 				data.page = "home";
 			}
 
-			// Then re-show just the one requested page
+			// Then re-show just the one requested page by removing the 'hid' class from it
 			document.getElementById( data.page ).className = "page"		
-		})
+		});
 
 	</script>
 
+</body>
+</html>

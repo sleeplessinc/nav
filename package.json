@@ -1,0 +1,10 @@
+{
+  "name": "sleepless-nav",
+  "version": "2.1.0",
+  "description" : "Browser code for building web-apps using pushstate",
+  "author": "Joe Hitchens <joe@sleepless.com> (sleepless.com)",
+  "license": {
+    "type": "MIT"
+  },
+  "repository": "git://github.com/sleeplessinc/nav.git"
+}
