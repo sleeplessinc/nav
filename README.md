@@ -17,7 +17,7 @@ Nav() is not SEO friendly, even though the example simulates a simple website.
 It is intended for navigation within a web-app with pages that
 won't need to be indexed by search engines.
 
-## Demo
+## Example
 
 See index.html 
 

@@ -1,8 +1,7 @@
 <html>
 <head>
 	<style>
-		.hid { display: none; }
-		.page { border: solid 1px #aaa; padding: 1em; font-size: 140%; }
+		.page { border: solid 1px #aaa; padding: 1em; font-size: 140%; display: none; }
 	</style>
 
 </head>
@@ -14,43 +13,36 @@
 		<input type=button value="Contact" onclick="Nav( { page: 'contact', foo: 'bar'} )">
 	</div>
 
-	<div class="page" id=home>
+	<div class="page " id=page_home>
 		<h1>Home Page</h1>
 		Home sweet home.
 	</div>
 
-	<div class="page hid" id=about>
+	<div class="page" id=page_about>
 		<h1>About Page</h1>
-		Note how as you click on the menu items, the page content changes,
-		but no requests are made to the server.  
-		Clicking the buttons is just "showing you" different things within the fetched html.
+		Note that as you click, the page content changes, but no requests are made to the server.  
 		<p>
 	</div>
 
-	<div class="page hid" id=contact>
+	<div class="page" id=page_contact>
 		<h1>Contact Page</h1>
-		Note that Nav is injecting "?page=contact" into the URL.
+		Note that Nav() is injecting "?page=contact" into the URL.
 		This allows the pseudo-page to be bookmarked.
 	</div>
 
 	<script src=nav.js></script>
 	<script>
 
-		Nav(function(data) {
-
-			// hide all the pseudo-pages
-			var pages = document.getElementsByClassName('page');
-			for(var i = 0; i < pages.length; i++ ) {
-				pages[ i ].className = "page hid"
-			}
-
-			if(! data.page) {
-				data.page = "home";
-			}
-
-			// Then re-show just the one requested page by removing the 'hid' class from it
-			document.getElementById( data.page ).className = "page"		
-		});
+		if(true) {
+			// default page flipping
+			Nav()
+		}
+		else {
+			// Manage your own page flipping
+			Nav(function(data) {
+				console.log(data.page)
+			})
+		}
 
 	</script>
 
