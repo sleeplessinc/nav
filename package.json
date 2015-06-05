@@ -1,6 +1,6 @@
 {
   "name": "sleepless-nav",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description" : "Browser code for building web-apps using pushstate",
   "author": "Joe Hitchens <joe@sleepless.com> (sleepless.com)",
   "license": {
