@@ -20,9 +20,9 @@ function Nav(data, new_show) {
 		var data = {}
 		var a = document.location.search.split(/[?&]/)
 		a.shift()
-		if(a.length == 0) {
+		/*if(a.length == 0) {
 			return
-		}
+		}*/
 		a.forEach(function(kv) {
 			var p = kv.split("=")
 			data[p[0]] = (p.length > 1) ? decodeURIComponent(p[1]) : ""
